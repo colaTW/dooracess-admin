@@ -20,10 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -36,6 +38,7 @@ import android.provider.Settings;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -82,11 +85,9 @@ import static org.linphone.mediastream.MediastreamerAndroidContext.getContext;
 
 public class DialerActivity extends MainActivity implements AddressText.AddressChangedListener {
     private static final String ACTION_CALL_LINPHONE = "org.linphone.intent.action.CallLaunched";
-
     private AddressText mAddress;
     private CallButton mStartCall, mAddCall, mTransferCall;
-    private ImageView mAddContact, mBackToCall, gohome, alarm;
-
+    private ImageView mAddContact, mBackToCall, gohome, alarm, alarm2;
     private boolean mIsTransfer;
     private CoreListenerStub mListener;
     private boolean mInterfaceLoaded;
@@ -107,6 +108,7 @@ public class DialerActivity extends MainActivity implements AddressText.AddressC
         RatKiller app = (RatKiller) getApplication();
         mSocket = app.getmSocket();
         mSocket.connect();
+
         Toast.makeText(DialerActivity.this, "Connected!!", Toast.LENGTH_SHORT).show();
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy =
@@ -151,6 +153,7 @@ public class DialerActivity extends MainActivity implements AddressText.AddressC
 
         mSocket.emit("login", userID);
         //  txt_uuid.setText("Login UUID:\n"+UUID);
+
         Toast.makeText(DialerActivity.this, "Login ID:" + userID, Toast.LENGTH_SHORT).show();
 
         mSocket.on(
@@ -343,11 +346,14 @@ public class DialerActivity extends MainActivity implements AddressText.AddressC
         mAddContact.setEnabled(false);
 
         alarm = findViewById(R.id.alarm);
+        alarm2 = findViewById(R.id.alarm2);
         alarm.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String Guard = "";
+
+                        /*String Guard = "";
+
                         try {
                             Guard =
                                     getSharedPreferences("info", MODE_PRIVATE)
@@ -356,11 +362,16 @@ public class DialerActivity extends MainActivity implements AddressText.AddressC
 
                         } catch (Exception e) {
 
-                        }
-                        mAddress.setText(Guard);
+                        }*/
+                        mAddress.setText("lin9141047801112");
                         mStartCall.performClick();
                         mAddress.setText("");
                     }
+                });
+        alarm2.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {}
                 });
 
         mAddContact.setOnClickListener(
@@ -388,6 +399,15 @@ public class DialerActivity extends MainActivity implements AddressText.AddressC
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(DialerActivity.this, BApage.class));
+                    }
+                });
+        gohome.setOnLongClickListener(
+                new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        // TODO Auto-generated method stub
+                        IPsettingdialog();
+                        return true;
                     }
                 });
 
@@ -583,5 +603,39 @@ public class DialerActivity extends MainActivity implements AddressText.AddressC
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify((int) (Math.random() * 99 + 101), notificationBuilder.build());
+    }
+
+    void IPsettingdialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DialerActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.domainsetting, null);
+        final EditText IP = view.findViewById(R.id.domainIP);
+        SharedPreferences sPrefs = getSharedPreferences("Domain", MODE_PRIVATE);
+        final String DomainIP = sPrefs.getString("IP", "");
+        IP.setText(DomainIP);
+        alertDialog.setPositiveButton(
+                "確認",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+                            SharedPreferences sPrefs = getSharedPreferences("Domain", MODE_PRIVATE);
+                            sPrefs.edit().putString("IP", IP.getText().toString()).commit();
+                            /* SharedPreferences.Editor editor = sPrefs.edit(); // 获取Editor对象
+                            editor.putString("IP", IP.getText().toString()); // 存储数据
+                            editor.commit();*/
+                        } catch (Exception e) {
+                            Toast.makeText(
+                                            DialerActivity.this,
+                                            "請確認IP以及熱感機連線狀態",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+                });
+
+        alertDialog.setTitle("DomainIP設定");
+        alertDialog.setView(view);
+        AlertDialog dialog = alertDialog.create();
+        dialog.show();
     }
 }

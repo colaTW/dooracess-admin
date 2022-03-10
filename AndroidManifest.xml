@@ -201,43 +201,81 @@
         <!-- Assistant activities -->
         <activity
             android:name=".assistant.memberdatabase"
-            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.member_modify"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.ApporvedList"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.DoorAccess"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.DoorAccess_floor"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.DoorAccess_elevator"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".assistant.DoorAccess_floor_elevtor"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".assistant.DoorAccess_longtime"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".assistant.modify_floor"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".assistant.modify_elevator"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.BApage"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.BAlist"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.AccesCard"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.Guardpage"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".assistant.Guardpage2"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".assistant.Guardpage_addnew"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"
             />
         <activity
             android:name=".assistant.MenuAssistantActivity"
